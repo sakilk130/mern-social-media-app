@@ -8,6 +8,7 @@ export default makeStyles((theme) => ({
     borderRadius: "15px",
     alignItems: "center",
     justifyContent: "center",
+    margin: "30px 0px",
   },
   header: {
     color: "rgba(0,183,255, 1)",

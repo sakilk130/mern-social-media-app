@@ -1,9 +1,10 @@
 import { AppBar, Container, Grid, Grow, Typography } from "@material-ui/core";
-import Form from "./components/Form";
-import makeStyles from "./styles";
-import { useDispatch } from "react-redux";
 import { Dispatch, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { getPosts } from "./actions/posts";
+import Form from "./components/Form";
+import Posts from "./components/Posts";
+import makeStyles from "./styles";
 
 const App = () => {
   const classes = makeStyles();
@@ -34,7 +35,7 @@ const App = () => {
             justifyContent="space-between"
           >
             <Grid item xs={12} sm={7}>
-              <Form />
+              <Posts />
             </Grid>
             <Grid item xs={12} sm={4}>
               <Form />
