@@ -12,7 +12,7 @@ import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 import moment from "moment";
 import { useDispatch } from "react-redux";
 import { Dispatch } from "redux";
-import { deleteAPost } from "../../../actions/posts";
+import { deleteAPost, likeAPost } from "../../../actions/posts";
 import { IPost } from "../../../types/Post";
 import makeStyles from "./styles/styles";
 
@@ -23,6 +23,14 @@ const Post = ({ post, setCurrentId }: { post: IPost; setCurrentId: any }) => {
   const deleteHandler = () => {
     dispatch(
       deleteAPost({
+        id: post._id,
+      })
+    );
+  };
+
+  const likeHandler = () => {
+    dispatch(
+      likeAPost({
         id: post._id,
       })
     );
@@ -71,11 +79,13 @@ const Post = ({ post, setCurrentId }: { post: IPost; setCurrentId: any }) => {
         </Typography>
       </CardContent>
       <CardActions className={classes.cardActions}>
-        <Button size="small" color="primary">
-          <ThumbUpAltIcon fontSize="small" /> Like {post.like_count}{" "}
+        <Button size="small" color="primary" onClick={likeHandler}>
+          <ThumbUpAltIcon fontSize="small" />
+          &nbsp; Like &nbsp; {post.like_count}
         </Button>
         <Button size="small" color="primary" onClick={deleteHandler}>
-          <DeleteIcon fontSize="small" /> Delete
+          <DeleteIcon fontSize="small" />
+          &nbsp; Delete
         </Button>
       </CardActions>
     </Card>

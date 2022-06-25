@@ -2,7 +2,7 @@ export interface IPostFormData {
   creator: string;
   title: string;
   message: string;
-  tags: string;
+  tags: string[];
   selected_file: string;
 }
 

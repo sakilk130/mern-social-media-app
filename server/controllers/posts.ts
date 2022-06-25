@@ -89,4 +89,40 @@ const deletePost = async (req: Request, res: Response): Promise<void> => {
     });
   }
 };
-export { getPosts, createPost, updatePost, deletePost };
+
+const likePost = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params;
+    if (!mongoose.isValidObjectId(id)) {
+      res.status(404).json({
+        success: false,
+        error: "Post not found",
+      });
+    }
+    const post = await Post.findByIdAndUpdate(
+      id,
+      {
+        $inc: { like_count: 1 },
+      },
+      {
+        new: true,
+      }
+    );
+    if (!post) {
+      res.status(404).json({
+        success: false,
+        error: "Update failed",
+      });
+    }
+    res.status(200).json({
+      success: true,
+      data: post,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      error: error.message,
+    });
+  }
+};
+export { getPosts, createPost, updatePost, deletePost, likePost };

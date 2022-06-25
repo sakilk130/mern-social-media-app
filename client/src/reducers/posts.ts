@@ -15,6 +15,10 @@ const postReducer = (posts = [], action: any) => {
     case PostActions.DELETE_POST:
       return posts.filter((post: any) => post._id !== action.payload.data._id);
 
+    case PostActions.LIKE_POST:
+      return posts.map((post: any) =>
+        post._id === action.payload.data._id ? action.payload.data : post
+      );
     default:
       return posts;
   }

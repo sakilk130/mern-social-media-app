@@ -30,6 +30,7 @@ const App = () => {
       <Grow in>
         <Container>
           <Grid
+            className={classes.mainGrid}
             container
             alignItems="stretch"
             spacing={3}

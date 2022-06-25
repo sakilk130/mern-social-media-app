@@ -7,3 +7,4 @@ export const createPost = (formData: IPostFormData) =>
 export const updatePost = (id: string, formData: any) =>
   axios.patch(`/api/v1/posts/${id}`, formData);
 export const deletePost = (id: string) => axios.delete(`/api/v1/posts/${id}`);
+export const likePost = (id: string) => axios.patch(`/api/v1/posts/like/${id}`);

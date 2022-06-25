@@ -18,4 +18,9 @@ export default makeStyles((theme) => ({
     width: "50px",
     height: "50px",
   },
+  mainGrid: {
+    [theme.breakpoints.down("sm")]: {
+      flexDirection: "column-reverse",
+    },
+  },
 }));

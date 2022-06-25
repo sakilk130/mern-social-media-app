@@ -15,7 +15,7 @@ const Form = ({ currentId, setCurrentId }: any) => {
     creator: "",
     title: "",
     message: "",
-    tags: "",
+    tags: [],
     selected_file: "",
   });
 
@@ -48,7 +48,7 @@ const Form = ({ currentId, setCurrentId }: any) => {
       creator: "",
       title: "",
       message: "",
-      tags: "",
+      tags: [],
       selected_file: "",
     });
   };
@@ -98,7 +98,9 @@ const Form = ({ currentId, setCurrentId }: any) => {
           label="Tags"
           fullWidth
           value={formData.tags}
-          onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
+          onChange={(e) =>
+            setFormData({ ...formData, tags: e.target.value.split(",") })
+          }
         />
         <div className={classes.fileInput}>
           <FileBase
