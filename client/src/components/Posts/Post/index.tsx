@@ -13,7 +13,7 @@ import moment from "moment";
 import { IPost } from "../../../types/Post";
 import makeStyles from "./styles/styles";
 
-const Post = ({ post }: { post: IPost }) => {
+const Post = ({ post, setCurrentId }: { post: IPost; setCurrentId: any }) => {
   const classes = makeStyles();
 
   return (
@@ -34,7 +34,10 @@ const Post = ({ post }: { post: IPost }) => {
       </div>
       <div className={classes.overlayIcon}>
         <Button style={{ color: "white" }} size="small">
-          <MoreHorizIcon fontSize="default" />
+          <MoreHorizIcon
+            fontSize="default"
+            onClick={() => setCurrentId(post._id)}
+          />
         </Button>
       </div>
       <div className={classes.details}>

@@ -1,9 +1,18 @@
+import { PostActions } from "../enums/PostActions";
+
 const postReducer = (posts = [], action: any) => {
   switch (action.type) {
-    case "GET_POSTS":
+    case PostActions.FETCH_POSTS:
       return action.payload.data;
-    case "CREATE_POST":
+
+    case PostActions.CREATE_POST:
       return [...posts, action.payload.data];
+
+    case PostActions.UPDATE_POST:
+      return posts.map((post: any) =>
+        post._id === action.payload.data._id ? action.payload.data : post
+      );
+
     default:
       return posts;
   }

@@ -1,10 +1,12 @@
-import { fetchPosts, createPost } from "../api";
+import { createPost, fetchPosts, updatePost } from "../api";
+import { PostActions } from "../enums/PostActions";
+import { IPostFormData } from "../types/Post";
 
 export const getPosts = () => async (dispatch: any) => {
   try {
     const { data } = await fetchPosts();
     dispatch({
-      type: "GET_POSTS",
+      type: PostActions.FETCH_POSTS,
       payload: data,
     });
   } catch (error) {
@@ -16,10 +18,24 @@ export const createNewPost = (formData: any) => async (dispatch: any) => {
   try {
     const { data } = await createPost(formData);
     dispatch({
-      type: "CREATE_POST",
+      type: PostActions.CREATE_POST,
       payload: data,
     });
   } catch (error) {
     console.log(error);
   }
 };
+
+export const updateAPost =
+  ({ id, formData }: { id: string; formData: IPostFormData }) =>
+  async (dispatch: any) => {
+    try {
+      const { data } = await updatePost(id, formData);
+      dispatch({
+        type: PostActions.UPDATE_POST,
+        payload: data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };

@@ -1,13 +1,14 @@
 import { Button, Paper, TextField, Typography } from "@material-ui/core";
-import React, { useState } from "react";
-import makeStyles from "./styles/styles";
+import React, { FormEvent, useEffect, useState } from "react";
 import FileBase from "react-file-base64";
-import { useDispatch } from "react-redux";
-import { createNewPost } from "../../actions/posts";
+import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
-import { IPostFormData } from "../../types/Post";
+import { createNewPost, updateAPost } from "../../actions/posts";
+import { AppState } from "../../reducers";
+import { IPost, IPostFormData } from "../../types/Post";
+import makeStyles from "./styles/styles";
 
-const Form = () => {
+const Form = ({ currentId, setCurrentId }: any) => {
   const classes = makeStyles();
   const dispatch: Dispatch<any> = useDispatch();
   const [formData, setFormData] = useState<IPostFormData>({
@@ -18,13 +19,31 @@ const Form = () => {
     selected_file: "",
   });
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const post = useSelector((state: AppState) =>
+    currentId ? state.posts.find((post: IPost) => post._id === currentId) : null
+  );
+
+  useEffect(() => {
+    if (post) setFormData(post);
+  }, [post]);
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(createNewPost(formData));
+    if (currentId) {
+      dispatch(
+        updateAPost({
+          id: currentId,
+          formData,
+        })
+      );
+    } else {
+      dispatch(createNewPost(formData));
+    }
     clearForm();
   };
 
   const clearForm = () => {
+    setCurrentId(null);
     setFormData({
       creator: "",
       title: "",
@@ -43,7 +62,7 @@ const Form = () => {
         onSubmit={handleSubmit}
       >
         <Typography variant="h6" align="center">
-          Create a Memory
+          {currentId ? "Update" : "Create"} a Memory
         </Typography>
         <TextField
           name="creator"
@@ -97,7 +116,7 @@ const Form = () => {
           type="submit"
           fullWidth
         >
-          Submit
+          {currentId ? "Update" : "Create"}
         </Button>
         <Button
           size="small"
