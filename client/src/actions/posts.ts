@@ -1,4 +1,4 @@
-import { createPost, fetchPosts, updatePost } from "../api";
+import { createPost, fetchPosts, updatePost, deletePost } from "../api";
 import { PostActions } from "../enums/PostActions";
 import { IPostFormData } from "../types/Post";
 
@@ -33,6 +33,20 @@ export const updateAPost =
       const { data } = await updatePost(id, formData);
       dispatch({
         type: PostActions.UPDATE_POST,
+        payload: data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+export const deleteAPost =
+  ({ id }: { id: string }) =>
+  async (dispatch: any) => {
+    try {
+      const { data } = await deletePost(id);
+      dispatch({
+        type: PostActions.DELETE_POST,
         payload: data,
       });
     } catch (error) {
