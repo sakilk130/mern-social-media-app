@@ -7,12 +7,48 @@ import {
   Typography,
 } from "@material-ui/core";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { Dispatch } from "redux";
+import { auth, provider } from "../../config/firebase";
+import { AuthActions } from "../../enums/AuthActions";
+import { AppState } from "../../reducers";
 import makeStyles from "./styles/styles";
 
 const Auth = () => {
   const classes = makeStyles();
+  const navigate = useNavigate();
+  const dispatch: Dispatch<any> = useDispatch();
+
+  const user = useSelector((state: AppState) => state.auth);
   const [isSignUp, setIsSignUp] = useState(false);
+
+  const googleSignInHandler = () => {
+    auth
+      .signInWithPopup(provider)
+      .then((res: any) => {
+        dispatch({
+          type: AuthActions.LOGIN,
+          payload: {
+            user: {
+              name: res?.user?.displayName,
+              email: res?.user?.email,
+              imageUrl: res?.user?.photoURL,
+            },
+            token: res?.credential?.idToken,
+          },
+        });
+        navigate("/");
+      })
+      .catch((err: any) => alert(err));
+  };
+
+  useEffect(() => {
+    if (user?.authData?.token) {
+      navigate("/");
+    }
+  }, [user, navigate]);
 
   return (
     <Container component="main" maxWidth="xs">
@@ -75,8 +111,25 @@ const Auth = () => {
               required
             />
           )}
-          <Button variant="contained" color="primary" type="submit" fullWidth>
+
+          <Button
+            className={classes.button}
+            variant="contained"
+            color="primary"
+            type="submit"
+            fullWidth
+          >
             Sign In
+          </Button>
+
+          <Button
+            className={classes.button}
+            color="primary"
+            fullWidth
+            variant="contained"
+            onClick={googleSignInHandler}
+          >
+            Google Sign In
           </Button>
 
           <div className={classes.dontHaveAccount}>

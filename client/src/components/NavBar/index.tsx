@@ -1,10 +1,21 @@
 import { AppBar, Avatar, Button, Toolbar, Typography } from "@material-ui/core";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { auth } from "../../config/firebase";
+import { AppState } from "../../reducers";
 import makeStyles from "./styles/styles";
 
 const NavBar = () => {
   const classes = makeStyles();
-  const user: any = null;
+  const dispatch = useDispatch();
+  const user = useSelector((state: AppState) => state.auth);
+
+  const logoutHandler = () => {
+    auth.signOut();
+    dispatch({
+      type: "LOGOUT",
+    });
+  };
 
   return (
     <AppBar className={classes.appBar} position="static" color="inherit">
@@ -19,19 +30,23 @@ const NavBar = () => {
         />
       </Link>
       <Toolbar className={classes.toolbar}>
-        {user ? (
+        {user?.authData ? (
           <div className={classes.profile}>
             <Avatar
               className={classes.purple}
-              alt={user?.result.name}
-              src={user?.result.imageUrl}
+              alt={user?.authData?.user?.name}
+              src={user?.authData?.user?.imageUrl}
             >
-              {user?.result.name.charAt(0)}
+              {user?.authData?.user?.name?.charAt(0)}
             </Avatar>
             <Typography className={classes.userName} variant="h6">
-              {user?.result.name}
+              {user?.authData?.user?.name}
             </Typography>
-            <Button variant="contained" color="secondary">
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={logoutHandler}
+            >
               Logout
             </Button>
           </div>

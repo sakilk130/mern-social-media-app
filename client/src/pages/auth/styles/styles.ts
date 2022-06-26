@@ -25,6 +25,9 @@ export default makeStyles((theme) => ({
       marginBottom: theme.spacing(1),
     },
   },
+  button: {
+    marginTop: theme.spacing(2),
+  },
   dontHaveAccount: {
     display: "flex",
     alignItems: "center",
