@@ -6,9 +6,9 @@ const PostSchema = new Schema({
   creator: String,
   tags: [String],
   selected_file: String,
-  like_count: {
-    type: Number,
-    default: 0,
+  likes: {
+    type: [String],
+    default: [],
   },
   created_at: {
     type: Date,

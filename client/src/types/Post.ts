@@ -13,6 +13,6 @@ export interface IPost {
   creator: string;
   tags: string[];
   selected_file: string;
-  like_count: number;
+  likes: string[];
   created_at: string;
 }

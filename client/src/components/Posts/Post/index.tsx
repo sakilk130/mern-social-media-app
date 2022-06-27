@@ -81,7 +81,7 @@ const Post = ({ post, setCurrentId }: { post: IPost; setCurrentId: any }) => {
       <CardActions className={classes.cardActions}>
         <Button size="small" color="primary" onClick={likeHandler}>
           <ThumbUpAltIcon fontSize="small" />
-          &nbsp; Like &nbsp; {post.like_count}
+          &nbsp; Like &nbsp; {post.likes.length}
         </Button>
         <Button size="small" color="primary" onClick={deleteHandler}>
           <DeleteIcon fontSize="small" />

@@ -39,10 +39,7 @@ export const signup = async (req: Request, res: Response): Promise<any> => {
         .status(400)
         .json({ success: false, message: "User already exists" });
     }
-    const hashedPassword = await bcrypt.hash(
-      password,
-      process.env.PASSWORD_SALT as string
-    );
+    const hashedPassword = await bcrypt.hash(password, 12);
     const newUser = new User({
       name: `${first_name} ${last_name}`,
       email,

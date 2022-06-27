@@ -90,30 +90,43 @@ const deletePost = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-const likePost = async (req: Request, res: Response): Promise<void> => {
+const likePost = async (req: Request & any, res: Response): Promise<any> => {
   try {
-    const { id } = req.params;
+    const { id }: any = req.params;
+    if (!req.userId) {
+      res.status(401).json({
+        success: false,
+        error: "You must be logged in to like a post",
+      });
+    }
+
     if (!mongoose.isValidObjectId(id)) {
       res.status(404).json({
         success: false,
         error: "Post not found",
       });
     }
-    const post = await Post.findByIdAndUpdate(
-      id,
-      {
-        $inc: { like_count: 1 },
-      },
-      {
-        new: true,
-      }
-    );
+
+    const post: any = await Post.findById(id);
     if (!post) {
       res.status(404).json({
         success: false,
-        error: "Update failed",
+        error: "Post not found",
       });
     }
+    const isAlreadyLiked: any = post.likes.some(
+      (like: any) => like.toString() === req.userId
+    );
+    if (isAlreadyLiked) {
+      post.likes = post.likes.filter(
+        (like: any) => like.toString() !== req.userId
+      );
+      post.save();
+    } else {
+      post.likes.push(req.userId);
+      await post.save();
+    }
+
     res.status(200).json({
       success: true,
       data: post,
@@ -121,7 +134,7 @@ const likePost = async (req: Request, res: Response): Promise<void> => {
   } catch (error) {
     res.status(400).json({
       success: false,
-      error: error.message,
+      error: error,
     });
   }
 };

@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Dispatch } from "redux";
+import { signin, signup } from "../../actions/auth";
 import { auth, provider } from "../../config/firebase";
 import { AuthActions } from "../../enums/AuthActions";
 import { AppState } from "../../reducers";
@@ -23,6 +24,14 @@ const Auth = () => {
 
   const user = useSelector((state: AppState) => state.auth);
   const [isSignUp, setIsSignUp] = useState(false);
+
+  const [formData, setFormData] = useState({
+    first_name: "",
+    last_name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
 
   const googleSignInHandler = () => {
     auth
@@ -50,6 +59,43 @@ const Auth = () => {
     }
   }, [user, navigate]);
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (isSignUp) {
+      if (
+        formData.first_name &&
+        formData.last_name &&
+        formData.email &&
+        formData.password &&
+        formData.confirmPassword
+      ) {
+        if (formData.password === formData.confirmPassword) {
+          dispatch(
+            signup({
+              first_name: formData.first_name,
+              last_name: formData.last_name,
+              email: formData.email,
+              password: formData.password,
+            })
+          );
+        } else {
+          alert("Passwords do not match");
+        }
+      }
+    } else {
+      if (formData.email && formData.password) {
+        dispatch(
+          signin({
+            email: formData.email,
+            password: formData.password,
+          })
+        );
+      } else {
+        alert("Please fill all the fields");
+      }
+    }
+  };
+
   return (
     <Container component="main" maxWidth="xs">
       <Card className={classes.card}>
@@ -57,7 +103,7 @@ const Auth = () => {
           <LockOpenIcon className={classes.authHeaderLogo} />
           <Typography variant="h5">Sign {isSignUp ? "Up" : "In"}</Typography>
         </div>
-        <form className={classes.form}>
+        <form className={classes.form} onSubmit={handleSubmit}>
           {isSignUp && (
             <Grid
               container
@@ -73,6 +119,11 @@ const Auth = () => {
                   variant="outlined"
                   fullWidth
                   required
+                  name="first_name"
+                  value={formData.first_name}
+                  onChange={(e) =>
+                    setFormData({ ...formData, first_name: e.target.value })
+                  }
                 />
               </Grid>
               <Grid xs={12} lg={6}>
@@ -82,6 +133,11 @@ const Auth = () => {
                   variant="outlined"
                   fullWidth
                   required
+                  name="last_name"
+                  value={formData.last_name}
+                  onChange={(e) =>
+                    setFormData({ ...formData, last_name: e.target.value })
+                  }
                 />
               </Grid>
             </Grid>
@@ -92,6 +148,11 @@ const Auth = () => {
             variant="outlined"
             fullWidth
             required
+            name="email"
+            value={formData.email}
+            onChange={(e) =>
+              setFormData({ ...formData, email: e.target.value })
+            }
           />
           <TextField
             id="outlined-basic"
@@ -100,6 +161,11 @@ const Auth = () => {
             type="password"
             fullWidth
             required
+            name="password"
+            value={formData.password}
+            onChange={(e) =>
+              setFormData({ ...formData, password: e.target.value })
+            }
           />
           {isSignUp && (
             <TextField
@@ -109,6 +175,11 @@ const Auth = () => {
               type="password"
               fullWidth
               required
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={(e) =>
+                setFormData({ ...formData, confirmPassword: e.target.value })
+              }
             />
           )}
 
