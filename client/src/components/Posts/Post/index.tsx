@@ -10,16 +10,18 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 import moment from "moment";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
 import { deleteAPost, likeAPost } from "../../../actions/posts";
+import { AppState } from "../../../reducers";
 import { IPost } from "../../../types/Post";
 import makeStyles from "./styles/styles";
+import ThumbUpAltOutlinedIcon from "@material-ui/icons/ThumbUpAltOutlined";
 
 const Post = ({ post, setCurrentId }: { post: IPost; setCurrentId: any }) => {
   const classes = makeStyles();
   const dispatch: Dispatch<any> = useDispatch();
-
+  const user = useSelector((state: AppState) => state.auth);
   const deleteHandler = () => {
     dispatch(
       deleteAPost({
@@ -34,6 +36,30 @@ const Post = ({ post, setCurrentId }: { post: IPost; setCurrentId: any }) => {
         id: post._id,
       })
     );
+  };
+
+  const Likes = () => {
+    const isLiked = post.likes.find(
+      (like: any) =>
+        like === (user?.authData?.user?.id || user?.authData?.user?.googleId)
+    );
+    if (isLiked) {
+      return (
+        <>
+          <ThumbUpAltIcon fontSize="small" />
+          &nbsp;{post.likes.length ? post.likes.length : ""}&nbsp;
+          {post.likes.length > 1 ? "Likes" : "Like"} &nbsp;
+        </>
+      );
+    } else {
+      return (
+        <>
+          <ThumbUpAltOutlinedIcon fontSize="small" />
+          &nbsp;{post.likes.length ? post.likes.length : ""}&nbsp;{" "}
+          {post.likes.length > 1 ? "Likes" : "Like"} &nbsp;
+        </>
+      );
+    }
   };
 
   return (
@@ -80,8 +106,7 @@ const Post = ({ post, setCurrentId }: { post: IPost; setCurrentId: any }) => {
       </CardContent>
       <CardActions className={classes.cardActions}>
         <Button size="small" color="primary" onClick={likeHandler}>
-          <ThumbUpAltIcon fontSize="small" />
-          &nbsp; Like &nbsp; {post.likes.length}
+          <Likes />
         </Button>
         <Button size="small" color="primary" onClick={deleteHandler}>
           <DeleteIcon fontSize="small" />

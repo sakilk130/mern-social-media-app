@@ -37,6 +37,7 @@ const Auth = () => {
     auth
       .signInWithPopup(provider)
       .then((res: any) => {
+        console.log(res);
         dispatch({
           type: AuthActions.LOGIN,
           payload: {
@@ -44,6 +45,7 @@ const Auth = () => {
               name: res?.user?.displayName,
               email: res?.user?.email,
               imageUrl: res?.user?.photoURL,
+              googleId: res?.additionalUserInfo?.profile?.id,
             },
             token: res?.credential?.idToken,
           },
