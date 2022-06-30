@@ -1,4 +1,6 @@
 import { AppBar, Avatar, Button, Toolbar, Typography } from "@material-ui/core";
+import decode from "jwt-decode";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { auth } from "../../config/firebase";
@@ -16,6 +18,14 @@ const NavBar = () => {
       type: "LOGOUT",
     });
   };
+
+  useEffect(() => {
+    const token = user?.authData?.user?.token;
+    if (token) {
+      const decodedToken: any = decode(token);
+      if (decodedToken.exp * 1000 < new Date().getTime()) logoutHandler();
+    }
+  }, [user]);
 
   return (
     <AppBar className={classes.appBar} position="static" color="inherit">

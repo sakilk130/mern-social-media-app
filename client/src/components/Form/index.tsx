@@ -11,7 +11,7 @@ import makeStyles from "./styles/styles";
 const Form = ({ currentId, setCurrentId }: any) => {
   const classes = makeStyles();
   const dispatch: Dispatch<any> = useDispatch();
-  const user = JSON.parse(localStorage.getItem("profile") || "{}");
+  const user = useSelector((state: AppState) => state.auth);
 
   const [formData, setFormData] = useState<IPostFormData>({
     title: "",
@@ -38,7 +38,9 @@ const Form = ({ currentId, setCurrentId }: any) => {
         })
       );
     } else {
-      dispatch(createNewPost({ ...formData, name: user?.user?.name }));
+      dispatch(
+        createNewPost({ ...formData, name: user?.authData?.user?.name })
+      );
     }
     clearForm();
   };
@@ -55,72 +57,80 @@ const Form = ({ currentId, setCurrentId }: any) => {
 
   return (
     <Paper className={classes.paper}>
-      <form
-        autoComplete="off"
-        noValidate
-        className={`${classes.root} ${classes.form}`}
-        onSubmit={handleSubmit}
-      >
-        <Typography variant="h6" align="center">
-          {currentId ? "Update" : "Create"} a Memory
-        </Typography>
+      {user?.authData?.user?.name ? (
+        <form
+          autoComplete="off"
+          noValidate
+          className={`${classes.root} ${classes.form}`}
+          onSubmit={handleSubmit}
+        >
+          <Typography variant="h6" align="center">
+            {currentId ? "Update" : "Create"} a Memory
+          </Typography>
 
-        <TextField
-          name="title"
-          variant="outlined"
-          label="Title"
-          fullWidth
-          value={formData.title}
-          onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-        />
-        <TextField
-          name="message"
-          variant="outlined"
-          label="Message"
-          fullWidth
-          value={formData.message}
-          onChange={(e) =>
-            setFormData({ ...formData, message: e.target.value })
-          }
-        />
-        <TextField
-          name="tags"
-          variant="outlined"
-          label="Tags"
-          fullWidth
-          value={formData.tags}
-          onChange={(e) =>
-            setFormData({ ...formData, tags: e.target.value.split(",") })
-          }
-        />
-        <div className={classes.fileInput}>
-          <FileBase
-            type="file"
-            multiple={false}
-            onDone={({ base64 }: any) =>
-              setFormData({ ...formData, selected_file: base64 })
+          <TextField
+            name="title"
+            variant="outlined"
+            label="Title"
+            fullWidth
+            value={formData.title}
+            onChange={(e) =>
+              setFormData({ ...formData, title: e.target.value })
             }
           />
-        </div>
-        <Button
-          className={classes.submit}
-          variant="contained"
-          color="primary"
-          type="submit"
-          fullWidth
-        >
-          {currentId ? "Update" : "Create"}
-        </Button>
-        <Button
-          size="small"
-          variant="contained"
-          color="secondary"
-          fullWidth
-          onClick={clearForm}
-        >
-          clear
-        </Button>
-      </form>
+          <TextField
+            name="message"
+            variant="outlined"
+            label="Message"
+            fullWidth
+            value={formData.message}
+            onChange={(e) =>
+              setFormData({ ...formData, message: e.target.value })
+            }
+          />
+          <TextField
+            name="tags"
+            variant="outlined"
+            label="Tags"
+            fullWidth
+            value={formData.tags}
+            onChange={(e) =>
+              setFormData({ ...formData, tags: e.target.value.split(",") })
+            }
+          />
+          <div className={classes.fileInput}>
+            <FileBase
+              type="file"
+              multiple={false}
+              onDone={({ base64 }: any) =>
+                setFormData({ ...formData, selected_file: base64 })
+              }
+            />
+          </div>
+          <Button
+            className={classes.submit}
+            variant="contained"
+            color="primary"
+            type="submit"
+            fullWidth
+          >
+            {currentId ? "Update" : "Create"}
+          </Button>
+          <Button
+            size="small"
+            variant="contained"
+            color="secondary"
+            fullWidth
+            onClick={clearForm}
+          >
+            clear
+          </Button>
+        </form>
+      ) : (
+        <Typography variant="h6" align="center">
+          Please Sign In to create your own memories and like other's memories.
+        </Typography>
+      )}
     </Paper>
   );
 };
