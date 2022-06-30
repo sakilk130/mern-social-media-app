@@ -1,5 +1,4 @@
 export interface IPostFormData {
-  creator: string;
   title: string;
   message: string;
   tags: string[];
@@ -8,6 +7,7 @@ export interface IPostFormData {
 
 export interface IPost {
   _id: string;
+  name: string;
   title: string;
   message: string;
   creator: string;

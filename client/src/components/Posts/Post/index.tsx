@@ -9,6 +9,7 @@ import {
 import DeleteIcon from "@material-ui/icons/Delete";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
+import ThumbUpAltOutlinedIcon from "@material-ui/icons/ThumbUpAltOutlined";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
@@ -16,7 +17,6 @@ import { deleteAPost, likeAPost } from "../../../actions/posts";
 import { AppState } from "../../../reducers";
 import { IPost } from "../../../types/Post";
 import makeStyles from "./styles/styles";
-import ThumbUpAltOutlinedIcon from "@material-ui/icons/ThumbUpAltOutlined";
 
 const Post = ({ post, setCurrentId }: { post: IPost; setCurrentId: any }) => {
   const classes = makeStyles();
@@ -73,18 +73,21 @@ const Post = ({ post, setCurrentId }: { post: IPost; setCurrentId: any }) => {
         title={post.title}
       />
       <div className={classes.overlay}>
-        <Typography variant="h6">{post.creator}</Typography>
+        <Typography variant="h6">{post.name}</Typography>
         <Typography variant="body2">
           {moment(post.created_at).fromNow()}
         </Typography>
       </div>
       <div className={classes.overlayIcon}>
-        <Button style={{ color: "white" }} size="small">
-          <MoreHorizIcon
-            fontSize="default"
-            onClick={() => setCurrentId(post._id)}
-          />
-        </Button>
+        {(user?.authData?.user?.id || user?.authData?.user?.googleId) ===
+          post.creator && (
+          <Button style={{ color: "white" }} size="small">
+            <MoreHorizIcon
+              fontSize="default"
+              onClick={() => setCurrentId(post._id)}
+            />
+          </Button>
+        )}
       </div>
       <div className={classes.details}>
         <Typography variant="body2" color="textSecondary" component="h2">
@@ -105,13 +108,23 @@ const Post = ({ post, setCurrentId }: { post: IPost; setCurrentId: any }) => {
         </Typography>
       </CardContent>
       <CardActions className={classes.cardActions}>
-        <Button size="small" color="primary" onClick={likeHandler}>
+        <Button
+          size="small"
+          color="primary"
+          onClick={likeHandler}
+          disabled={
+            !(user?.authData?.user?.id || user?.authData?.user?.googleId)
+          }
+        >
           <Likes />
         </Button>
-        <Button size="small" color="primary" onClick={deleteHandler}>
-          <DeleteIcon fontSize="small" />
-          &nbsp; Delete
-        </Button>
+        {(user?.authData?.user?.id || user?.authData?.user?.googleId) ===
+          post.creator && (
+          <Button size="small" color="primary" onClick={deleteHandler}>
+            <DeleteIcon fontSize="small" />
+            &nbsp; Delete
+          </Button>
+        )}
       </CardActions>
     </Card>
   );

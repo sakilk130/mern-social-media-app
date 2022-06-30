@@ -11,8 +11,9 @@ import makeStyles from "./styles/styles";
 const Form = ({ currentId, setCurrentId }: any) => {
   const classes = makeStyles();
   const dispatch: Dispatch<any> = useDispatch();
+  const user = JSON.parse(localStorage.getItem("profile") || "{}");
+
   const [formData, setFormData] = useState<IPostFormData>({
-    creator: "",
     title: "",
     message: "",
     tags: [],
@@ -37,7 +38,7 @@ const Form = ({ currentId, setCurrentId }: any) => {
         })
       );
     } else {
-      dispatch(createNewPost(formData));
+      dispatch(createNewPost({ ...formData, name: user?.user?.name }));
     }
     clearForm();
   };
@@ -45,7 +46,6 @@ const Form = ({ currentId, setCurrentId }: any) => {
   const clearForm = () => {
     setCurrentId(null);
     setFormData({
-      creator: "",
       title: "",
       message: "",
       tags: [],
@@ -64,16 +64,7 @@ const Form = ({ currentId, setCurrentId }: any) => {
         <Typography variant="h6" align="center">
           {currentId ? "Update" : "Create"} a Memory
         </Typography>
-        <TextField
-          name="creator"
-          variant="outlined"
-          label="Creator"
-          fullWidth
-          value={formData.creator}
-          onChange={(e) =>
-            setFormData({ ...formData, creator: e.target.value })
-          }
-        />
+
         <TextField
           name="title"
           variant="outlined"
