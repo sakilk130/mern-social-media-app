@@ -17,9 +17,10 @@ const getPosts = async (_: Request, res: Response): Promise<void> => {
   }
 };
 
-const createPost = async (req: Request, res: Response): Promise<void> => {
+const createPost = async (req: any, res: Response): Promise<void> => {
   try {
-    const post = await Post.create(req.body);
+    const data = req.body;
+    const post = await Post.create({ ...data, creator: req.userId });
     res.status(201).json({
       success: true,
       data: post,
