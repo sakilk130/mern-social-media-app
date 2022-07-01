@@ -19,6 +19,9 @@ const postReducer = (posts = [], action: any) => {
       return posts.map((post: any) =>
         post._id === action.payload.data._id ? action.payload.data : post
       );
+
+    case PostActions.GET_POST_BY_SEARCH:
+      return action.payload.data;
     default:
       return posts;
   }

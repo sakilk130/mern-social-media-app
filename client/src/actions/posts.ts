@@ -4,9 +4,10 @@ import {
   updatePost,
   deletePost,
   likePost,
+  getPostBySearch,
 } from "../api";
 import { PostActions } from "../enums/PostActions";
-import { IPostFormData } from "../types/Post";
+import { IPostFormData, IQuery } from "../types/Post";
 
 export const getPosts = () => async (dispatch: any) => {
   try {
@@ -67,6 +68,20 @@ export const likeAPost =
       const { data } = await likePost(id);
       dispatch({
         type: PostActions.LIKE_POST,
+        payload: data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+export const searchPosts =
+  ({ query, tags }: IQuery) =>
+  async (dispatch: any) => {
+    try {
+      const { data } = await getPostBySearch({ query, tags });
+      dispatch({
+        type: PostActions.GET_POST_BY_SEARCH,
         payload: data,
       });
     } catch (error) {

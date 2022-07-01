@@ -16,3 +16,8 @@ export interface IPost {
   likes: string[];
   created_at: string;
 }
+
+export interface IQuery {
+  query: any;
+  tags: any;
+}

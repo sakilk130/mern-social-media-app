@@ -6,4 +6,12 @@ export default makeStyles((theme) => ({
       flexDirection: "column-reverse",
     },
   },
+  search: {
+    padding: "20px",
+    marginBottom: "20px",
+  },
+  chipInput: {
+    margin: "10px 0",
+    width: "100%",
+  },
 }));
