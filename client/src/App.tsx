@@ -7,7 +7,7 @@ import NavBar from "./components/NavBar";
 import { AuthActions } from "./enums/AuthActions";
 import Auth from "./pages/auth";
 import Home from "./pages/home";
-import PostDetails from "./pages/post-details/PostDetails";
+import PostDetails from "./pages/post-details";
 
 const App = () => {
   const dispatch: Dispatch<any> = useDispatch();

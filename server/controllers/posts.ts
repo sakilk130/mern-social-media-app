@@ -209,6 +209,40 @@ const searchPost = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
+const commentPost = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const { comment } = req.body;
+
+    if (!mongoose.isValidObjectId(id)) {
+      res.status(404).json({
+        success: false,
+        error: "Post not found",
+      });
+      commentPost;
+    }
+    const post: any = await Post.findById(id);
+    if (!post) {
+      res.status(404).json({
+        success: false,
+        error: "Post not found",
+      });
+    }
+    post.comment.push(comment);
+    await post.save();
+
+    res.status(200).json({
+      success: true,
+      data: post,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      error: error.message,
+    });
+  }
+};
+
 export {
   getPosts,
   getPostsById,
@@ -217,4 +251,5 @@ export {
   deletePost,
   likePost,
   searchPost,
+  commentPost,
 };

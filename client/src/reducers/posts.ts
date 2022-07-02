@@ -45,6 +45,11 @@ const postReducer = (state = { posts: [] }, action: any) => {
         ),
       };
 
+    case PostActions.COMMENT_POST:
+      return {
+        ...state,
+        post: action.payload.data,
+      };
     case PostActions.GET_POST_BY_SEARCH:
       return { ...state, posts: action.payload.data };
     default:

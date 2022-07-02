@@ -37,3 +37,6 @@ export const getPostBySearch = (searchQuery: IQuery) =>
   API.get(
     `/api/v1/posts/search?query=${searchQuery.query}&tags=${searchQuery.tags}`
   );
+
+export const commentPost = ({ id, comment }: any) =>
+  API.patch(`/api/v1/posts/comment/${id}`, { comment });

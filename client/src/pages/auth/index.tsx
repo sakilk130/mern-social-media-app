@@ -37,7 +37,6 @@ const Auth = () => {
     auth
       .signInWithPopup(provider)
       .then((res: any) => {
-        console.log(res);
         dispatch({
           type: AuthActions.LOGIN,
           payload: {

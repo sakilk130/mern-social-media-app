@@ -1,4 +1,5 @@
 import {
+  Button,
   Card,
   CardActionArea,
   CardContent,
@@ -6,21 +7,27 @@ import {
   Chip,
   Grid,
   Paper,
+  TextField,
   Typography,
 } from "@material-ui/core";
 import moment from "moment";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Dispatch } from "redux";
-import { fetchPostById, searchPosts } from "../../actions/posts";
+import { commentAPost, fetchPostById, searchPosts } from "../../actions/posts";
+import { AppState } from "../../reducers";
 import makeStyles from "./styles/styles";
 
 const PostDetails = () => {
   const { id } = useParams();
+  const commentRef: any = useRef();
   const navigate = useNavigate();
   const dispatch: Dispatch<any> = useDispatch();
   const classes = makeStyles();
+  const [comment, setComment] = useState("");
+
+  const user = useSelector((state: AppState) => state.auth);
 
   const { post, posts } = useSelector((state: any) => state.posts);
 
@@ -43,6 +50,17 @@ const PostDetails = () => {
 
   const recommendedPosts = posts.filter((post: any) => post.id !== id);
 
+  const commentHandler = () => {
+    setComment("");
+    dispatch(
+      commentAPost({
+        id,
+        comment: `${user?.authData?.user?.name} : ${comment}`,
+      })
+    );
+    commentRef.current.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <Paper>
       {post && (
@@ -62,6 +80,56 @@ const PostDetails = () => {
           </Grid>
           <Grid item xs={12} md={6} lg={6} className={classes.image}>
             <img src={post?.selected_file} alt="post" height={"300px"} />
+          </Grid>
+          <Grid container spacing={2} className={classes.container}>
+            <Grid item xs={12} md={7} lg={7}>
+              <div
+                style={{
+                  height: "200px",
+                  overflowY: "scroll",
+                }}
+              >
+                {post.comment &&
+                  post?.comment.map((comment: any) => (
+                    <Typography variant="body1">
+                      <strong>{comment.split(":")[0]}</strong> :{" "}
+                      {comment.split(":")[1]}
+                    </Typography>
+                  ))}
+                <div ref={commentRef} />
+              </div>
+            </Grid>
+            <Grid item xs={12} md={5} lg={5}>
+              <Typography
+                variant="h5"
+                style={{
+                  marginBottom: "10px",
+                }}
+              >
+                Write a comment
+              </Typography>
+              <TextField
+                label="Comment"
+                variant="outlined"
+                name="comment"
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+                fullWidth
+              />
+              <Button
+                type="submit"
+                style={{
+                  marginTop: "10px",
+                }}
+                variant="contained"
+                color="primary"
+                fullWidth
+                disabled={!comment}
+                onClick={commentHandler}
+              >
+                Submit
+              </Button>
+            </Grid>
           </Grid>
         </Grid>
       )}
@@ -108,14 +176,6 @@ const PostDetails = () => {
                       </Typography>
                     </CardContent>
                   </CardActionArea>
-                  {/* <CardActions>
-                    <Button size="small" color="primary">
-                      Share
-                    </Button>
-                    <Button size="small" color="primary">
-                      Learn More
-                    </Button>
-                  </CardActions> */}
                 </Card>
               </Grid>
             ))}

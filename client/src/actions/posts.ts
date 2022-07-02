@@ -6,6 +6,7 @@ import {
   likePost,
   getPostBySearch,
   getPostById,
+  commentPost,
 } from "../api";
 import { PostActions } from "../enums/PostActions";
 import { IPostFormData, IQuery } from "../types/Post";
@@ -97,6 +98,20 @@ export const searchPosts =
       const { data } = await getPostBySearch({ query, tags });
       dispatch({
         type: PostActions.GET_POST_BY_SEARCH,
+        payload: data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+export const commentAPost =
+  ({ id, comment }: any) =>
+  async (dispatch: any) => {
+    try {
+      const { data } = await commentPost({ id, comment });
+      dispatch({
+        type: PostActions.COMMENT_POST,
         payload: data,
       });
     } catch (error) {

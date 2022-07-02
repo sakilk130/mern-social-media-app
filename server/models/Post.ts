@@ -11,6 +11,12 @@ const PostSchema = new Schema({
     type: [String],
     default: [],
   },
+
+  comment: {
+    type: [String],
+    default: [],
+  },
+
   created_at: {
     type: Date,
     default: new Date(),
