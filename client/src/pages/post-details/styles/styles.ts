@@ -10,6 +10,7 @@ export default makeStyles((theme) => ({
     marginBottom: "15px",
   },
   image: {
-    width: "100%",
+    display: "flex",
+    justifyContent: "center",
   },
 }));
