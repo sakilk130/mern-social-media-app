@@ -28,9 +28,10 @@ export default makeStyles((theme) => ({
     color: "white",
   },
   details: {
-    display: "flex",
-    justifyContent: "space-between",
-    margin: "20px",
+    margin: "10px",
+    "& div": {
+      marginRight: "5px",
+    },
   },
   title: {
     padding: "0 16px",

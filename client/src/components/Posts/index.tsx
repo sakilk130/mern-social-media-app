@@ -6,9 +6,9 @@ import { IPost } from "../../types/Post";
 import Post from "./Post";
 
 const Posts = ({ setCurrentId }: any) => {
-  const posts = useSelector((state: AppState) => state.posts);
+  const { posts }: any = useSelector((state: AppState) => state?.posts);
 
-  return !posts.length ? (
+  return !posts?.length ? (
     <CircularProgress />
   ) : (
     <Grid container alignItems="stretch" spacing={3}>

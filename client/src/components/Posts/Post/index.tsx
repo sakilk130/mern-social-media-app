@@ -4,6 +4,7 @@ import {
   CardActions,
   CardContent,
   CardMedia,
+  Chip,
   Typography,
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -90,9 +91,9 @@ const Post = ({ post, setCurrentId }: { post: IPost; setCurrentId: any }) => {
         )}
       </div>
       <div className={classes.details}>
-        <Typography variant="body2" color="textSecondary" component="h2">
-          {post.tags.map((tag) => `#${tag} `)}
-        </Typography>
+        {post.tags.map((tag) => (
+          <Chip label={tag} color="secondary" />
+        ))}
       </div>
       <Typography
         gutterBottom

@@ -9,12 +9,16 @@ import {
 import { PostActions } from "../enums/PostActions";
 import { IPostFormData, IQuery } from "../types/Post";
 
-export const getPosts = () => async (dispatch: any) => {
+export const getPosts = (page: number) => async (dispatch: any) => {
   try {
-    const { data } = await fetchPosts();
+    const { data } = await fetchPosts(page);
     dispatch({
       type: PostActions.FETCH_POSTS,
-      payload: data,
+      payload: {
+        posts: data.data?.posts,
+        totalPages: data.data?.totalPages,
+        currentPage: data.data?.currentPage,
+      },
     });
   } catch (error) {
     console.log(error);

@@ -2,12 +2,24 @@ import { Request, Response } from "express";
 import mongoose from "mongoose";
 import Post from "../models/Post";
 
-const getPosts = async (_: Request, res: Response): Promise<void> => {
+const getPosts = async (req: Request, res: Response): Promise<void> => {
   try {
-    const posts = await Post.find().sort({ created_at: -1 });
+    const { page } = req.query;
+    const totalPosts = await Post.countDocuments();
+    const LIMIT = 10;
+
+    const posts = await Post.find()
+      .sort({ created_at: -1 })
+      .skip((Number(page || 1) - 1) * LIMIT)
+      .limit(LIMIT);
+
     res.status(200).json({
       success: true,
-      data: posts,
+      data: {
+        posts,
+        currentPage: Number(page || 1),
+        totalPages: Math.ceil(totalPosts / LIMIT),
+      },
     });
   } catch (error) {
     res.status(404).json({

@@ -14,4 +14,8 @@ export default makeStyles((theme) => ({
     margin: "10px 0",
     width: "100%",
   },
+  paginate: {
+    display: "flex",
+    justifyContent: "center",
+  },
 }));

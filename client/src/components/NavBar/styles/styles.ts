@@ -8,7 +8,7 @@ export default makeStyles((theme) => ({
     padding: "5px",
     borderRadius: "15px",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-between",
     margin: "30px 0px",
   },
 
@@ -24,11 +24,11 @@ export default makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     textDecoration: "none",
+    marginLeft: "10px",
   },
   toolbar: {
     display: "flex",
     justifyContent: "flex-end",
-    width: "400px",
   },
   profile: {
     display: "flex",

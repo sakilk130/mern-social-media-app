@@ -20,8 +20,10 @@ const Form = ({ currentId, setCurrentId }: any) => {
     selected_file: "",
   });
 
-  const post = useSelector((state: AppState) =>
-    currentId ? state.posts.find((post: IPost) => post._id === currentId) : null
+  const post = useSelector((state: any) =>
+    currentId
+      ? state?.posts?.posts?.find((post: IPost) => post._id === currentId)
+      : null
   );
 
   useEffect(() => {

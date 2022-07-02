@@ -15,6 +15,7 @@ import { getPosts, searchPosts } from "../../actions/posts";
 import Form from "../../components/Form";
 import Posts from "../../components/Posts";
 import makeStyles from "./styles/styles";
+import Paginate from "../../components/Paginate";
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
@@ -24,7 +25,7 @@ const Home = () => {
   const classes = makeStyles();
   const dispatch: Dispatch<any> = useDispatch();
   const query = useQuery();
-  const page = query.get("page") || 1;
+  const page: any = query.get("page") || 1;
   const navigate = useNavigate();
 
   const [currentId, setCurrentId] = useState(null);
@@ -32,7 +33,7 @@ const Home = () => {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    dispatch(getPosts());
+    dispatch(getPosts(page));
   }, [currentId, dispatch]);
 
   const handleAddChip = (chip: any) => {
@@ -101,6 +102,9 @@ const Home = () => {
               </Button>
             </Paper>
             <Form currentId={currentId} setCurrentId={setCurrentId} />
+            <Paper className={classes.paginate}>
+              <Paginate page={page || 1} />
+            </Paper>
           </Grid>
         </Grid>
       </Container>
