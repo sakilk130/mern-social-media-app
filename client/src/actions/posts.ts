@@ -5,6 +5,7 @@ import {
   deletePost,
   likePost,
   getPostBySearch,
+  getPostById,
 } from "../api";
 import { PostActions } from "../enums/PostActions";
 import { IPostFormData, IQuery } from "../types/Post";
@@ -24,7 +25,17 @@ export const getPosts = (page: number) => async (dispatch: any) => {
     console.log(error);
   }
 };
-
+export const fetchPostById = (id: string) => async (dispatch: any) => {
+  try {
+    const { data } = await getPostById(id);
+    dispatch({
+      type: PostActions.FETCH_POST,
+      payload: data.data,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 export const createNewPost = (formData: any) => async (dispatch: any) => {
   try {
     const { data } = await createPost(formData);

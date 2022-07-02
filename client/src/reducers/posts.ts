@@ -10,6 +10,12 @@ const postReducer = (state = { posts: [] }, action: any) => {
         currentPage: action.payload.currentPage,
       };
 
+    case PostActions.FETCH_POST:
+      return {
+        ...state,
+        post: action.payload,
+      };
+
     case PostActions.CREATE_POST:
       return {
         ...state,
@@ -17,18 +23,27 @@ const postReducer = (state = { posts: [] }, action: any) => {
       };
 
     case PostActions.UPDATE_POST:
-      return state?.posts.map((post: any) =>
-        post._id === action.payload.data._id ? action.payload.data : post
-      );
+      return {
+        ...state,
+        posts: state?.posts.map((post: any) =>
+          post._id === action.payload.data._id ? action.payload.data : post
+        ),
+      };
     case PostActions.DELETE_POST:
-      return state?.posts.filter(
-        (post: any) => post._id !== action.payload.data._id
-      );
+      return {
+        ...state,
+        posts: state?.posts.filter(
+          (post: any) => post._id !== action.payload.data._id
+        ),
+      };
 
     case PostActions.LIKE_POST:
-      return state?.posts.map((post: any) =>
-        post._id === action.payload.data._id ? action.payload.data : post
-      );
+      return {
+        ...state,
+        posts: state?.posts.map((post: any) =>
+          post._id === action.payload.data._id ? action.payload.data : post
+        ),
+      };
 
     case PostActions.GET_POST_BY_SEARCH:
       return { ...state, posts: action.payload.data };

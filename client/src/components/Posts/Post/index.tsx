@@ -13,6 +13,7 @@ import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 import ThumbUpAltOutlinedIcon from "@material-ui/icons/ThumbUpAltOutlined";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { Dispatch } from "redux";
 import { deleteAPost, likeAPost } from "../../../actions/posts";
 import { AppState } from "../../../reducers";
@@ -22,6 +23,8 @@ import makeStyles from "./styles/styles";
 const Post = ({ post, setCurrentId }: { post: IPost; setCurrentId: any }) => {
   const classes = makeStyles();
   const dispatch: Dispatch<any> = useDispatch();
+  const navigate = useNavigate();
+
   const user = useSelector((state: AppState) => state.auth);
   const deleteHandler = () => {
     dispatch(
@@ -72,6 +75,9 @@ const Post = ({ post, setCurrentId }: { post: IPost; setCurrentId: any }) => {
           "https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png"
         }
         title={post.title}
+        onClick={() => {
+          navigate(`/posts/${post._id}`);
+        }}
       />
       <div className={classes.overlay}>
         <Typography variant="h6">{post.name}</Typography>
@@ -108,6 +114,7 @@ const Post = ({ post, setCurrentId }: { post: IPost; setCurrentId: any }) => {
           {post.message}
         </Typography>
       </CardContent>
+
       <CardActions className={classes.cardActions}>
         <Button
           size="small"

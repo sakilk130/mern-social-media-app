@@ -21,6 +21,8 @@ export const getSignUp = (formData: any) =>
 export const fetchPosts = (page: number) =>
   axios.get(`/api/v1/posts?page=${page || 1}`);
 
+export const getPostById = (id: any) => axios.get(`/api/v1/posts/${id}`);
+
 export const createPost = (formData: IPostFormData) =>
   API.post("/api/v1/posts", formData);
 

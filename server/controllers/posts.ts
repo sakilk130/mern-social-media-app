@@ -29,6 +29,36 @@ const getPosts = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
+const getPostsById = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params;
+
+    if (!mongoose.isValidObjectId(id)) {
+      res.status(404).json({
+        success: false,
+        message: "Post not found",
+      });
+    }
+    const post = await Post.findById(id);
+    if (!post) {
+      res.status(404).json({
+        success: false,
+        message: "Post not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: post,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      error: error.message,
+    });
+  }
+};
+
 const createPost = async (req: any, res: Response): Promise<void> => {
   try {
     const data = req.body;
@@ -179,4 +209,12 @@ const searchPost = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-export { getPosts, createPost, updatePost, deletePost, likePost, searchPost };
+export {
+  getPosts,
+  getPostsById,
+  createPost,
+  updatePost,
+  deletePost,
+  likePost,
+  searchPost,
+};
