@@ -50,7 +50,18 @@ export default makeStyles((theme) => ({
 
   [theme.breakpoints.down("sm")]: {
     header: {
-      fontSize: "35px",
+      fontSize: "20px",
+    },
+    toolbar: {
+      width: "0px",
+    },
+    logout: {
+      padding: "0px",
+      height: "30px",
+    },
+    profile: {
+      display: "flex",
+      alignItems: "center",
     },
   },
 }));

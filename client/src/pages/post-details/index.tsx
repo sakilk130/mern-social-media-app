@@ -152,30 +152,30 @@ const PostDetails = () => {
           >
             {recommendedPosts.map((post: any) => (
               <Grid item xs={12} md={3} lg={3}>
-                <Card>
-                  <CardActionArea
-                    onClick={() => {
-                      navigate(`/posts/${post._id}`);
-                    }}
-                  >
-                    <CardMedia
-                      component="img"
-                      height="140"
-                      image={post.selected_file}
-                    />
-                    <CardContent>
-                      <Typography gutterBottom variant="h5" component="h2">
-                        {post.title}
-                      </Typography>
-                      <Typography
-                        variant="body2"
-                        color="textSecondary"
-                        component="p"
-                      >
-                        {post.message}
-                      </Typography>
-                    </CardContent>
-                  </CardActionArea>
+                <Card
+                  className={classes.card}
+                  onClick={() => {
+                    window.scrollTo(0, 0);
+                    navigate(`/posts/${post._id}`);
+                  }}
+                >
+                  <CardMedia
+                    component="img"
+                    height="140"
+                    image={post.selected_file}
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      {post.title}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      color="textSecondary"
+                      component="p"
+                    >
+                      {post.message}
+                    </Typography>
+                  </CardContent>
                 </Card>
               </Grid>
             ))}

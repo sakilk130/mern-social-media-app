@@ -17,5 +17,6 @@ export default makeStyles((theme) => ({
   paginate: {
     display: "flex",
     justifyContent: "center",
+    marginTop: "10px",
   },
 }));

@@ -98,7 +98,7 @@ const Post = ({ post, setCurrentId }: { post: IPost; setCurrentId: any }) => {
       </div>
       <div className={classes.details}>
         {post.tags.map((tag) => (
-          <Chip label={tag} color="secondary" />
+          <Chip label={tag} variant="outlined" color="primary" size="small" />
         ))}
       </div>
       <Typography
@@ -109,7 +109,7 @@ const Post = ({ post, setCurrentId }: { post: IPost; setCurrentId: any }) => {
       >
         {post.title}
       </Typography>
-      <CardContent>
+      <CardContent className={classes.message}>
         <Typography variant="body2" color="textSecondary" component="p">
           {post.message}
         </Typography>
@@ -128,7 +128,7 @@ const Post = ({ post, setCurrentId }: { post: IPost; setCurrentId: any }) => {
         </Button>
         {(user?.authData?.user?.id || user?.authData?.user?.googleId) ===
           post.creator && (
-          <Button size="small" color="primary" onClick={deleteHandler}>
+          <Button size="small" color="secondary" onClick={deleteHandler}>
             <DeleteIcon fontSize="small" />
             &nbsp; Delete
           </Button>

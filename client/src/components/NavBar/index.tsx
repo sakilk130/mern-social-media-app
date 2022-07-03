@@ -53,6 +53,7 @@ const NavBar = () => {
               {user?.authData?.user?.name}
             </Typography>
             <Button
+              className={classes.logout}
               variant="contained"
               color="secondary"
               onClick={logoutHandler}

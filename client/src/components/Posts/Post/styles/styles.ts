@@ -6,7 +6,7 @@ export default makeStyles((theme) => ({
     flexDirection: "column",
     justifyContent: "space-between",
     borderRadius: "15px",
-    height: "100%",
+    height: "400px",
     position: "relative",
   },
   media: {
@@ -27,6 +27,9 @@ export default makeStyles((theme) => ({
     top: "20px",
     right: "20px",
     color: "white",
+  },
+  message: {
+    overflowY: "scroll",
   },
   details: {
     margin: "10px",

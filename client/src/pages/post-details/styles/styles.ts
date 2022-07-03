@@ -13,4 +13,9 @@ export default makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
   },
+  card: {
+    height: "400px",
+    overflowY: "scroll",
+    cursor: "pointer",
+  },
 }));
